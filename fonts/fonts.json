@@ -1,0 +1,4 @@
+{
+  "_comentario": "Adicione aqui as fontes que você colocar nesta pasta. 'name' é o nome exibido no seletor e 'file' é o nome do arquivo dentro de fonts/. Exemplo: { \"name\": \"Minha Fonte\", \"file\": \"MinhaFonte-Regular.ttf\" }",
+  "fonts": []
+}
