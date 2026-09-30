@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nox Commoda — quadro de desenho vetorial estilo Excalidraw com tema Tokyo Night / Drácula">
+  <title>Nox Commoda</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2316213e'/%3E%3Cpath d='M22 7a9 9 0 1 0 3 12A7 7 0 0 1 22 7z' fill='%23bd93f9'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ============ TOP BAR: global actions ============ -->
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" class="brand-logo" aria-hidden="true"><path d="M16 3a8 8 0 1 0 5 13A6.5 6.5 0 0 1 16 3z"/><circle cx="18.5" cy="6" r="1"/></svg>
+      <span>Nox <b>Commoda</b></span>
+    </div>
+
+    <div class="group">
+      <button class="icon-btn" id="btnNew" data-tooltip="Novo documento">
+        <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 3 14 8 19 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+      </button>
+      <button class="icon-btn" id="btnOpen" data-tooltip="Abrir projeto (Ctrl+O)">
+        <svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v1H7.5a2 2 0 0 0-1.9 1.4L3 19z"/><path d="M3 19l2.6-7.6A2 2 0 0 1 7.5 10H22l-2.7 7.7A2 2 0 0 1 17.4 19z"/></svg>
+      </button>
+      <button class="icon-btn" id="btnSave" data-tooltip="Salvar projeto (Ctrl+S)">
+        <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      </button>
+      <button class="icon-btn" id="btnExport" data-tooltip="Exportar PNG (Ctrl+E)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+      </button>
+    </div>
+
+    <div class="group">
+      <button class="icon-btn" id="btnUndo" data-tooltip="Desfazer (Ctrl+Z)">
+        <svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+      </button>
+      <button class="icon-btn" id="btnRedo" data-tooltip="Refazer (Ctrl+Y)">
+        <svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>
+      </button>
+    </div>
+
+    <div class="group zoom-group">
+      <button class="icon-btn" id="btnZoomOut" data-tooltip="Diminuir zoom (Ctrl+-)">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16" y2="16"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      </button>
+      <button class="zoom-label" id="btnZoomReset" data-tooltip="Resetar zoom para 100% (Ctrl+0)">100%</button>
+      <button class="icon-btn" id="btnZoomIn" data-tooltip="Aumentar zoom (Ctrl++)">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16" y2="16"/><line x1="8" y1="11" x2="14" y2="11"/><line x1="11" y1="8" x2="11" y2="14"/></svg>
+      </button>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="group">
+      <button class="icon-btn" id="btnGrid" data-tooltip="Mostrar/ocultar grade (G)">
+        <svg viewBox="0 0 24 24"><circle cx="5" cy="5" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="19" cy="5" r="1"/><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="19" r="1"/><circle cx="12" cy="19" r="1"/><circle cx="19" cy="19" r="1"/></svg>
+      </button>
+      <button class="icon-btn" id="btnHelp" data-tooltip="Atalhos de teclado (?)">
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>
+      </button>
+      <button class="icon-btn props-toggle" id="btnProps" data-tooltip="Propriedades">
+        <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="18" r="2"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <!-- ============ LEFT TOOLBAR: drawing tools ============ -->
+    <aside class="toolbar" id="toolbar" aria-label="Ferramentas">
+      <button class="tool active" data-tool="select" data-tooltip="Seleção / mover — V ou S">
+        <svg viewBox="0 0 24 24"><path d="M5 3l6.5 17 2.4-7.1L21 10.5z"/></svg>
+      </button>
+      <button class="tool" data-tool="hand" data-tooltip="Mão / navegar — H ou Espaço">
+        <svg viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.3l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></svg>
+      </button>
+      <div class="tool-sep"></div>
+      <button class="tool" data-tool="pencil" data-tooltip="Lápis (desenho livre) — P">
+        <svg viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/><path d="M15 5l4 4"/></svg>
+      </button>
+      <button class="tool" data-tool="rect" data-tooltip="Retângulo — R">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+      </button>
+      <button class="tool" data-tool="ellipse" data-tooltip="Elipse / círculo — E">
+        <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="7"/></svg>
+      </button>
+      <button class="tool" data-tool="line" data-tooltip="Linha reta — L">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/></svg>
+      </button>
+      <button class="tool" data-tool="arrow" data-tooltip="Seta — A">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="10 5 19 5 19 14"/></svg>
+      </button>
+      <button class="tool" data-tool="text" data-tooltip="Texto — T">
+        <svg viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      </button>
+      <div class="tool-sep"></div>
+      <button class="tool" data-tool="eraser" data-tooltip="Borracha — X (Delete apaga a seleção)">
+        <svg viewBox="0 0 24 24"><path d="M7 21l-4.3-4.3a2.4 2.4 0 0 1 0-3.4l9.6-9.6a2.4 2.4 0 0 1 3.4 0l5.6 5.6a2.4 2.4 0 0 1 0 3.4L13 21"/><path d="M22 21H7"/><path d="M5 11l9 9"/></svg>
+      </button>
+      <button class="tool" id="btnInsertImage" data-tooltip="Inserir imagem (ou cole com Ctrl+V)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      </button>
+    </aside>
+
+    <!-- ============ CANVAS ============ -->
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="canvas"></canvas>
+      <textarea id="textEditor" class="text-editor" spellcheck="false" hidden></textarea>
+      <div class="empty-state" id="emptyState">
+        <svg viewBox="0 0 24 24"><path d="M16 3a8 8 0 1 0 5 13A6.5 6.5 0 0 1 16 3z"/></svg>
+        <h2>Bem-vindo ao Nox Commoda</h2>
+        <p>Escolha uma ferramenta à esquerda e comece a desenhar.<br>
+          Cole imagens com <kbd>Ctrl</kbd>+<kbd>V</kbd> · Zoom com a roda do mouse · Navegue com <kbd>Espaço</kbd> + arrastar</p>
+      </div>
+      <div class="hint" id="hint"></div>
+    </div>
+
+    <!-- ============ RIGHT PANEL: properties ============ -->
+    <aside class="props" id="props" aria-label="Propriedades">
+      <section class="prop-section">
+        <h3>Traço</h3>
+        <div class="color-row">
+          <input type="color" id="strokeColor" value="#bd93f9" aria-label="Cor do traço">
+          <div class="swatches" id="strokeSwatches"></div>
+        </div>
+      </section>
+
+      <section class="prop-section" id="fillSection">
+        <h3>Preenchimento</h3>
+        <div class="color-row">
+          <input type="color" id="fillColor" value="#7c3aed" aria-label="Cor de preenchimento">
+          <div class="swatches" id="fillSwatches"></div>
+        </div>
+      </section>
+
+      <section class="prop-section">
+        <h3>Espessura <span class="value" id="strokeWidthValue">2px</span></h3>
+        <input type="range" id="strokeWidth" min="1" max="20" value="2">
+      </section>
+
+      <section class="prop-section">
+        <h3>Opacidade <span class="value" id="opacityValue">100%</span></h3>
+        <input type="range" id="opacity" min="0" max="100" value="100">
+      </section>
+
+      <section class="prop-section">
+        <h3>Estilo da linha</h3>
+        <select id="strokeStyle">
+          <option value="solid">Sólida</option>
+          <option value="dashed">Tracejada</option>
+          <option value="dotted">Pontilhada</option>
+        </select>
+      </section>
+
+      <section class="prop-section" id="textSection">
+        <h3>Fonte</h3>
+        <select id="fontFamily"></select>
+        <h3 class="mt">Tamanho do texto <span class="value" id="fontSizeValue">28px</span></h3>
+        <input type="range" id="fontSize" min="8" max="160" value="28">
+        <div class="btn-row">
+          <button class="small-btn" id="btnImportFont" data-tooltip="Carregar um arquivo .ttf/.otf/.woff/.woff2 nesta sessão">Importar fonte</button>
+          <button class="small-btn" id="btnSystemFonts" data-tooltip="Listar fontes instaladas (Local Font Access API — Chrome/Edge)">Fontes do sistema</button>
+        </div>
+      </section>
+
+      <section class="prop-section" id="arrangeSection">
+        <h3>Organizar</h3>
+        <div class="btn-row">
+          <button class="small-btn" id="btnFront" data-tooltip="Trazer para frente (Ctrl+])">Frente</button>
+          <button class="small-btn" id="btnBack" data-tooltip="Enviar para trás (Ctrl+[)">Trás</button>
+          <button class="small-btn" id="btnDuplicate" data-tooltip="Duplicar (Ctrl+D)">Duplicar</button>
+          <button class="small-btn danger" id="btnDelete" data-tooltip="Excluir (Delete)">Excluir</button>
+        </div>
+      </section>
+
+      <section class="prop-section">
+        <h3>Exportação</h3>
+        <label class="check"><input type="checkbox" id="exportBg" checked> Incluir fundo escuro no PNG</label>
+      </section>
+    </aside>
+  </main>
+
+  <!-- Hidden inputs -->
+  <input type="file" id="fileOpen" accept=".json,application/json" hidden>
+  <input type="file" id="imageInput" accept="image/*" hidden>
+  <input type="file" id="fontInput" accept=".ttf,.otf,.woff,.woff2" hidden>
+
+  <!-- Floating UI -->
+  <div class="tooltip" id="tooltip" role="tooltip"></div>
+  <div class="toast" id="toast"></div>
+
+  <dialog id="helpDialog" class="help-dialog">
+    <h2>Atalhos de teclado</h2>
+    <div class="shortcuts">
+      <div><kbd>V</kbd> / <kbd>S</kbd><span>Seleção / mover</span></div>
+      <div><kbd>H</kbd> / <kbd>Espaço</kbd><span>Mão (navegar)</span></div>
+      <div><kbd>P</kbd><span>Lápis</span></div>
+      <div><kbd>R</kbd><span>Retângulo</span></div>
+      <div><kbd>E</kbd><span>Elipse</span></div>
+      <div><kbd>L</kbd><span>Linha</span></div>
+      <div><kbd>A</kbd><span>Seta</span></div>
+      <div><kbd>T</kbd><span>Texto</span></div>
+      <div><kbd>X</kbd><span>Borracha</span></div>
+      <div><kbd>Delete</kbd><span>Excluir seleção</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>Z</kbd><span>Desfazer</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>Y</kbd><span>Refazer</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd><span>Copiar / colar (inclui imagens)</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>D</kbd><span>Duplicar</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>A</kbd><span>Selecionar tudo</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>S</kbd><span>Salvar projeto</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>O</kbd><span>Abrir projeto</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>E</kbd><span>Exportar PNG</span></div>
+      <div><kbd>Ctrl</kbd>+<kbd>+</kbd> / <kbd>-</kbd> / <kbd>0</kbd><span>Zoom</span></div>
+      <div><kbd>Shift</kbd><span>Manter proporção / ângulo de 45°</span></div>
+      <div><kbd>Setas</kbd><span>Mover seleção</span></div>
+      <div><kbd>G</kbd><span>Grade</span></div>
+    </div>
+    <form method="dialog"><button class="small-btn accent">Fechar</button></form>
+  </dialog>
+
+  <!-- Optional font manifest for file:// usage (see README) -->
+  <script src="fonts/fonts.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
